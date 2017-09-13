@@ -1,0 +1,1 @@
+2017/09/13 12:40:31 [emerg] 1#0: BIO_new_file("/etc/nginx/certs/live/test.loc/fullchain.pem") failed (SSL: error:02001002:system library:fopen:No such file or directory:fopen('/etc/nginx/certs/live/test.loc/fullchain.pem','r') error:2006D080:BIO routines:BIO_new_file:no such file)

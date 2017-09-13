@@ -1,0 +1,39 @@
+version: '2'
+
+services:
+    dbt:
+        build: mysql
+        image: mysql
+        container_name: "mysqlt"
+        volumes:
+            - "./.data/db:/var/lib/mysql"
+        ports:
+            - 3307:3307
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
+    phpt:
+        build: php7-fpm
+        container_name: "phpt"
+        environment:
+            SYMFONY_APP_PATH: ${SYMFONY_APP_PATH}
+            SYMFONY_ENV: ${SYMFONY_ENV}
+        volumes:
+            - ${SYMFONY_APP_PATH}:/var/www/symfony
+            - ./logs/symfony:/var/www/symfony/app/logs
+
+    nginxt:
+        build: nginx
+        container_name: "nginxt"
+        ports:
+            - 8080:8080
+        volumes_from:
+            - phpt
+        volumes:
+            - ./logs/nginx/:/var/log/nginx
+        environment:
+            NGINX_HOST: ${NGINX_HOST}
+            NGINX_ALIAS: ${NGINX_ALIAS}
